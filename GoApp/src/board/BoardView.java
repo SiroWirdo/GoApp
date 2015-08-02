@@ -9,8 +9,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import settings.Settings;
+
 public class BoardView extends JPanel{
-	private BoardControl boardController;
+	private BoardControl boardControl;
 	private BoardModel boardModel;
 	private BufferedImage board;
 	
@@ -27,6 +29,8 @@ public class BoardView extends JPanel{
 			System.out.print("BoardView: b³¹d wczytywania t³a planszy");
 		}
 		
+		this.addMouseListener(boardControl.getMoveListener());
+		
 		repaint();
 	}
 	
@@ -38,8 +42,8 @@ public class BoardView extends JPanel{
 		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
 		char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 		
-		int linePointX = 50;
-		int linePointY = 50;
+		int linePointX = Settings.startPointX;
+		int linePointY = Settings.startPointY;
 		int lineEndPointX = linePointX + lineLength * 8;
 		int lineEndPointY = linePointY + lineLength * 8;
 		int letterStartX = 45;
