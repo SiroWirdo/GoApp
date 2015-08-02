@@ -24,7 +24,7 @@ public class BoardView extends JPanel{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.print(this.toString() + " b³¹d wczytywania t³a planszy");
+			System.out.print("BoardView: b³¹d wczytywania t³a planszy");
 		}
 		
 		repaint();
@@ -43,15 +43,19 @@ public class BoardView extends JPanel{
 		int lineEndPointX = linePointX + lineLength * 8;
 		int lineEndPointY = linePointY + lineLength * 8;
 		int letterStartX = 45;
-		int letterStartY = 45;
+		int letterStartY = 25;
+		int numberStartX = 15;
+		int numberStartY = 60;
 		for(int i = 0; i < 9; i++){
 			g.drawLine(linePointX, linePointY, lineEndPointX, linePointY);
 			g.drawLine(linePointY, linePointX, linePointY, lineEndPointY);
 			
-			g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 17));
 			g.drawString(String.valueOf(letters[i]), letterStartX, letterStartY);
+			g.drawString(String.valueOf(numbers[i]), numberStartX, numberStartY);
 			
 			letterStartX += lineLength;
+			numberStartY += lineLength;
 			linePointY += lineLength;
 		}
 	}
