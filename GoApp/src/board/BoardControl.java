@@ -49,7 +49,20 @@ public class BoardControl {
 		
 		@Override
 		public void mouseClicked(MouseEvent e){
+			int x = e.getX();
+			int y = e.getY();
 			
+			for(int i = 0; i < crossPoints.length; i++){
+				for(int j = 0; j < crossPoints[i].length; j++){
+					int crossX = crossPoints[i][j].getX();
+					int crossY = crossPoints[i][j].getY();
+					
+					if(crossX - 35 < x && x < crossX + 35 && 
+							crossY - 35 < y  && y < crossY + 35){
+						boardView.drawStone(crossX, crossY, true);
+					}
+				}
+			}
 		}
 	}
 }

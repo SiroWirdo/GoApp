@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -15,10 +16,16 @@ public class BoardView extends JPanel{
 	private BoardControl boardControl;
 	private BoardModel boardModel;
 	private BufferedImage board;
+	private ArrayList<Stone> stones;
 	
 	public BoardView(BoardControl bc, BoardModel bm){
 		setSize(600, 600);
 		setLayout(null);
+		
+		this.boardControl = bc;
+		this.boardModel = bm;
+		
+		stones = new ArrayList<Stone>();
 		
 		try {
 		File f = new File("./resources/board.png");		
@@ -31,6 +38,11 @@ public class BoardView extends JPanel{
 		
 		this.addMouseListener(boardControl.getMoveListener());
 		
+		repaint();
+	}
+	
+	public void drawStone(int x, int y, boolean isBlack){
+		stones.add(new Stone(x, y, isBlack));
 		repaint();
 	}
 	
@@ -61,6 +73,10 @@ public class BoardView extends JPanel{
 			letterStartX += lineLength;
 			numberStartY += lineLength;
 			linePointY += lineLength;
+		}
+		
+		for(Stone stone : stones){
+			g.fillOval(stone.getX(), stone.getY(), 35, 35);
 		}
 	}
 }
