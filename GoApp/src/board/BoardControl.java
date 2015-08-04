@@ -10,9 +10,16 @@ public class BoardControl {
 	private boolean onePlayer;
 	private BoardModel boardModel;
 	private BoardView boardView;
+	private boolean isBlackTurn;
+	private boolean[][] occupiedPosition;
 	
 	public BoardControl(boolean one){
 		this.crossPoints = new CrossPoint[9][9];
+		this.occupiedPosition = new boolean[9][9];
+		
+		clearPositions();
+		
+		isBlackTurn = true;
 		
 		this.onePlayer = one;
 		this.boardModel = new BoardModel();
@@ -27,17 +34,26 @@ public class BoardControl {
 	}
 	
 	public void setCrossPoints(){
-		int lineLength= (int) (boardView.getHeight() - 50)/9;
 		int stPointX = Settings.startPointX;
 		int stPointY = Settings.startPointY;
+		
+		Settings.lineLength= (int) (boardView.getHeight() - Settings.startPointX)/9;
 		
 		for(int i = 0; i < 9; i++){			
 			for(int j = 0; j < 9; j++){
 				crossPoints[i][j] = new CrossPoint(stPointX, stPointY);
-				stPointY += lineLength;
+				stPointY += Settings.lineLength;
 			}
-			stPointX += lineLength;
+			stPointX += Settings.lineLength;
 			stPointY = Settings.startPointY;
+		}
+	}
+	
+	public void clearPositions(){
+		for(int i = 0; i < occupiedPosition.length; i++){
+			for(int j = 0; j < occupiedPosition[i].length; j++){
+				occupiedPosition[i][j] = false;
+			}
 		}
 	}
 	
@@ -57,9 +73,14 @@ public class BoardControl {
 					int crossX = crossPoints[i][j].getX();
 					int crossY = crossPoints[i][j].getY();
 					
-					if(crossX - 35 < x && x < crossX + 35 && 
-							crossY - 35 < y  && y < crossY + 35){
-						boardView.drawStone(crossX, crossY, true);
+					if(crossX - 20 < x && x < crossX + 20 && 
+							crossY - 20 < y  && y < crossY + 20){
+						
+						//System.out.println("X: " + x + " Y: " + y + " CX: " + crossX + " CY: " + crossY);
+						Stone stone = new Stone(x, y, isBlackTurn);
+						boardView.drawStone(stone);
+						occupiedPosition[i][j] = true;
+						isBlackTurn = !isBlackTurn;
 					}
 				}
 			}

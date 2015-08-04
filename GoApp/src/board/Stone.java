@@ -3,7 +3,8 @@ package board;
 public class Stone {
 	private int x;
 	private int y;
-	boolean isBlack;
+	private boolean isBlack;
+	private int numberFreeBreaths;
 	
 	public Stone(int x, int y, boolean isBlack){
 		this.x = x;
@@ -17,5 +18,9 @@ public class Stone {
 	
 	public int getY(){
 		return y;
+	}
+	
+	public boolean isBlack(){
+		return isBlack;
 	}
 }

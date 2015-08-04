@@ -1,5 +1,6 @@
 package board;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,7 +17,8 @@ public class BoardView extends JPanel{
 	private BoardControl boardControl;
 	private BoardModel boardModel;
 	private BufferedImage board;
-	private ArrayList<Stone> stones;
+	private ArrayList<Stone> blackStones;
+	private ArrayList<Stone> whiteStones;
 	
 	public BoardView(BoardControl bc, BoardModel bm){
 		setSize(600, 600);
@@ -25,7 +27,8 @@ public class BoardView extends JPanel{
 		this.boardControl = bc;
 		this.boardModel = bm;
 		
-		stones = new ArrayList<Stone>();
+		blackStones = new ArrayList<Stone>();
+		whiteStones = new ArrayList<Stone>();
 		
 		try {
 		File f = new File("./resources/board.png");		
@@ -41,23 +44,28 @@ public class BoardView extends JPanel{
 		repaint();
 	}
 	
-	public void drawStone(int x, int y, boolean isBlack){
-		stones.add(new Stone(x, y, isBlack));
+	public void drawStone(Stone stone){
+		if(stone.isBlack()){
+			blackStones.add(stone);
+		}else{
+			whiteStones.add(stone);
+		}
+		
 		repaint();
 	}
 	
 	public void paintComponent(Graphics g){
 		g.drawImage(board, 0, 0, null);
 		
-		int lineLength= (int) (this.getHeight() - 50)/9;
+		g.setColor(Color.BLACK);
 		
 		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
 		char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 		
 		int linePointX = Settings.startPointX;
 		int linePointY = Settings.startPointY;
-		int lineEndPointX = linePointX + lineLength * 8;
-		int lineEndPointY = linePointY + lineLength * 8;
+		int lineEndPointX = linePointX + Settings.lineLength * 8;
+		int lineEndPointY = linePointY + Settings.lineLength * 8;
 		int letterStartX = 45;
 		int letterStartY = 25;
 		int numberStartX = 15;
@@ -70,13 +78,18 @@ public class BoardView extends JPanel{
 			g.drawString(String.valueOf(letters[i]), letterStartX, letterStartY);
 			g.drawString(String.valueOf(numbers[i]), numberStartX, numberStartY);
 			
-			letterStartX += lineLength;
-			numberStartY += lineLength;
-			linePointY += lineLength;
+			letterStartX += Settings.lineLength;
+			numberStartY += Settings.lineLength;
+			linePointY += Settings.lineLength;
 		}
 		
-		for(Stone stone : stones){
-			g.fillOval(stone.getX(), stone.getY(), 35, 35);
+		for(Stone stone : blackStones){
+			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
+		}
+		
+		for(Stone stone : whiteStones){
+			g.setColor(Color.WHITE);
+			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
 		}
 	}
 }
