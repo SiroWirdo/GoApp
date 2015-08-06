@@ -49,6 +49,10 @@ public class BoardControl {
 		return whiteStones;
 	}
 	
+	public CrossPoint[][] getCrossPoints(){
+		return crossPoints;
+	}
+	
 	public void setCrossPoints(){
 		int stPointX = Settings.startPointX;
 		int stPointY = Settings.startPointY;
@@ -103,7 +107,7 @@ public class BoardControl {
 							crossY - 20 < y  && y < crossY + 20){
 						
 						//System.out.println("X: " + x + " Y: " + y + " CX: " + crossX + " CY: " + crossY);
-						Stone stone = new Stone(x, y, isBlackTurn, 4);
+						Stone stone = new Stone(i, j, isBlackTurn, 4);
 						drawStone(stone);
 						occupiedPosition[i][j] = true;
 						isBlackTurn = !isBlackTurn;

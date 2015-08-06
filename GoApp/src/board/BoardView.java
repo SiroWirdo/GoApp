@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -68,13 +67,17 @@ public class BoardView extends JPanel{
 			linePointY += Settings.lineLength;
 		}
 		
+		CrossPoint[][] crossPoints = boardControl.getCrossPoints();
+		
 		for(Stone stone : boardControl.getBlackStones()){
-			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
+			CrossPoint crossPoint = crossPoints[stone.getX()][stone.getY()];
+			g.fillOval(crossPoint.getX() - Settings.stoneSize/2, crossPoint.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
 		}
 		
 		for(Stone stone : boardControl.getWhiteStones()){
+			CrossPoint crossPoint = crossPoints[stone.getX()][stone.getY()];
 			g.setColor(Color.WHITE);
-			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
+			g.fillOval(crossPoint.getX() - Settings.stoneSize/2, crossPoint.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
 		}
 	}
 }
