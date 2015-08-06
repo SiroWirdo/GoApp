@@ -2,6 +2,7 @@ package board;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import settings.Settings;
 
@@ -12,10 +13,17 @@ public class BoardControl {
 	private BoardView boardView;
 	private boolean isBlackTurn;
 	private boolean[][] occupiedPosition;
+	private ArrayList<GroupOfStones> groupsOfStones;
+	private ArrayList<Stone> blackStones;
+	private ArrayList<Stone> whiteStones;
 	
 	public BoardControl(boolean one){
 		this.crossPoints = new CrossPoint[9][9];
 		this.occupiedPosition = new boolean[9][9];
+		this.groupsOfStones = new ArrayList<GroupOfStones>();
+		
+		this.blackStones = new ArrayList<Stone>();
+		this.whiteStones = new ArrayList<Stone>();
 		
 		clearPositions();
 		
@@ -31,6 +39,14 @@ public class BoardControl {
 	
 	public BoardView getBoardView(){
 		return boardView;
+	}
+	
+	public ArrayList<Stone> getBlackStones(){
+		return blackStones;
+	}
+	
+	public ArrayList<Stone> getWhiteStones(){
+		return whiteStones;
 	}
 	
 	public void setCrossPoints(){
@@ -61,6 +77,16 @@ public class BoardControl {
 		return new Move();
 	}
 	
+	public void drawStone(Stone stone){
+		if(stone.isBlack()){
+			blackStones.add(stone);
+		}else{
+			whiteStones.add(stone);
+		}
+		
+		boardView.repaint();
+	}
+	
 	private class Move extends MouseAdapter{
 		
 		@Override
@@ -77,8 +103,8 @@ public class BoardControl {
 							crossY - 20 < y  && y < crossY + 20){
 						
 						//System.out.println("X: " + x + " Y: " + y + " CX: " + crossX + " CY: " + crossY);
-						Stone stone = new Stone(x, y, isBlackTurn);
-						boardView.drawStone(stone);
+						Stone stone = new Stone(x, y, isBlackTurn, 4);
+						drawStone(stone);
 						occupiedPosition[i][j] = true;
 						isBlackTurn = !isBlackTurn;
 					}

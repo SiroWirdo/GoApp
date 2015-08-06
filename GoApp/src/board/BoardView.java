@@ -17,8 +17,6 @@ public class BoardView extends JPanel{
 	private BoardControl boardControl;
 	private BoardModel boardModel;
 	private BufferedImage board;
-	private ArrayList<Stone> blackStones;
-	private ArrayList<Stone> whiteStones;
 	
 	public BoardView(BoardControl bc, BoardModel bm){
 		setSize(600, 600);
@@ -26,9 +24,6 @@ public class BoardView extends JPanel{
 		
 		this.boardControl = bc;
 		this.boardModel = bm;
-		
-		blackStones = new ArrayList<Stone>();
-		whiteStones = new ArrayList<Stone>();
 		
 		try {
 		File f = new File("./resources/board.png");		
@@ -40,16 +35,6 @@ public class BoardView extends JPanel{
 		}
 		
 		this.addMouseListener(boardControl.getMoveListener());
-		
-		repaint();
-	}
-	
-	public void drawStone(Stone stone){
-		if(stone.isBlack()){
-			blackStones.add(stone);
-		}else{
-			whiteStones.add(stone);
-		}
 		
 		repaint();
 	}
@@ -83,11 +68,11 @@ public class BoardView extends JPanel{
 			linePointY += Settings.lineLength;
 		}
 		
-		for(Stone stone : blackStones){
+		for(Stone stone : boardControl.getBlackStones()){
 			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
 		}
 		
-		for(Stone stone : whiteStones){
+		for(Stone stone : boardControl.getWhiteStones()){
 			g.setColor(Color.WHITE);
 			g.fillOval(stone.getX() - Settings.stoneSize/2, stone.getY() - Settings.stoneSize/2, Settings.stoneSize, Settings.stoneSize);
 		}
