@@ -108,6 +108,12 @@ public class BoardControl {
 						
 						//System.out.println("X: " + x + " Y: " + y + " CX: " + crossX + " CY: " + crossY);
 						Stone stone = new Stone(i, j, isBlackTurn, 4);
+						GroupOfStones newGroup = new GroupOfStones(stone);
+						for(GroupOfStones group : groupsOfStones){
+							if(isBlackTurn = group.isBlack() && group != newGroup && group.isGroupNextToPosition(x, y)){
+								newGroup = group.mergeGroups(newGroup);
+							}
+						}
 						drawStone(stone);
 						occupiedPosition[i][j] = true;
 						isBlackTurn = !isBlackTurn;

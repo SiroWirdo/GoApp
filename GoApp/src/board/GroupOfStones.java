@@ -43,15 +43,29 @@ public class GroupOfStones {
 		return isBlack;
 	}
 	
-	public void mergeGroups(GroupOfStones gos){
+	public GroupOfStones mergeGroups(GroupOfStones gos){
 		for(Stone stone : gos.getStones()){
 			stones.add(stone);
 		}
 		numberFreeBreaths += gos.getNumberFreeBreaths();
+		
+		return this;
 	}
 	
-	public boolean isGroupOnPosition(int x, int y){
-		return stonesPosition[x][y];
+	public boolean isGroupNextToPosition(int x, int y){
+		if(stonesPosition[x-1][y]){
+			return true;
+		}
+		if(stonesPosition[x+1][y]){
+			return true;
+		}
+		if(stonesPosition[x][y-1]){
+			return true;
+		}
+		if(stonesPosition[x][y+1]){
+			return true;
+		}
+		return false;
 	}
 	
 	public void refreshBreaths(){
