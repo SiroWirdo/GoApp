@@ -36,4 +36,20 @@ public class Stone {
 	public void removeBreaths(int breaths){
 		this.numberFreeBreaths -= breaths;
 	}
+	
+	public boolean isStoneNearPosition(int x, int y){
+		if(this.x == x-1 && this.y == y){
+			return true;
+		}
+		if(this.x == x+1 && this.y == y){
+			return true;
+		}
+		if(this.x == x && this.y == y-1){
+			return true;
+		}
+		if(this.x == x && this.y == y+1){
+			return true;
+		}
+		return false;
+	}
 }

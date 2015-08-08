@@ -46,6 +46,7 @@ public class GroupOfStones {
 	public GroupOfStones mergeGroups(GroupOfStones gos){
 		for(Stone stone : gos.getStones()){
 			stones.add(stone);
+			stonesPosition[stone.getX()][stone.getY()] = true;
 		}
 		numberFreeBreaths += gos.getNumberFreeBreaths();
 		
@@ -53,16 +54,16 @@ public class GroupOfStones {
 	}
 	
 	public boolean isGroupNextToPosition(int x, int y){
-		if(stonesPosition[x-1][y]){
+		if(x-1 > -1 && stonesPosition[x-1][y]){
 			return true;
 		}
-		if(stonesPosition[x+1][y]){
+		if(x+1 < stonesPosition.length - 1 && stonesPosition[x+1][y]){
 			return true;
 		}
-		if(stonesPosition[x][y-1]){
+		if(y-1 > -1 && stonesPosition[x][y-1]){
 			return true;
 		}
-		if(stonesPosition[x][y+1]){
+		if(y+1 < stonesPosition[x].length - 1 && stonesPosition[x][y+1]){
 			return true;
 		}
 		return false;
@@ -73,5 +74,14 @@ public class GroupOfStones {
 		for(Stone stone : stones){
 			numberFreeBreaths += stone.getNumberOfFreeBreaths();
 		}
+	}
+	
+	public void removeBreathsInPosition(int x, int y){
+		for(Stone stone : stones){
+			if(stone.isStoneNearPosition(x,y)){
+				stone.removeBreaths(1);
+			}
+		}
+		refreshBreaths();
 	}
 }
