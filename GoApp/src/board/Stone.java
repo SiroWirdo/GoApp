@@ -37,6 +37,10 @@ public class Stone {
 		this.numberFreeBreaths -= breaths;
 	}
 	
+	public void setBreaths(int breaths){
+		this.numberFreeBreaths = breaths;
+	}
+	
 	public boolean isStoneNearPosition(int x, int y){
 		if(this.x == x-1 && this.y == y){
 			return true;
