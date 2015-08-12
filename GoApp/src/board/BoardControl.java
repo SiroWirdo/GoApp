@@ -93,7 +93,7 @@ public class BoardControl {
 
 		boardView.repaint();
 	}
-	
+
 	public void removeStones(GroupOfStones group){
 		for(Stone stone : group.getStones()){
 			if(whiteStones.contains(stone)){
@@ -106,7 +106,7 @@ public class BoardControl {
 			}
 		}
 	}
-	
+
 	public int numberOfBreaths(int x, int y){
 		int number = 4;
 		if(x-1 < 0 || occupiedPosition[x-1][y] != null){
@@ -121,26 +121,26 @@ public class BoardControl {
 		if(y+1 >  occupiedPosition[x].length - 1 || occupiedPosition[x][y+1] != null){
 			number -= 1;
 		}
-		
+
 		return number;
 	}
-	
+
 	public void refreshStonesBreaths(){
 		for(Stone stone : blackStones){
 			int breaths = numberOfBreaths(stone.getX(), stone.getY());
 			stone.setBreaths(breaths);
 		}
-		
+
 		for(Stone stone : whiteStones){
 			int breaths = numberOfBreaths(stone.getX(), stone.getY());
 			stone.setBreaths(breaths);
 		}
-		
+
 		for(GroupOfStones group : groupsOfStones){
 			group.refreshBreaths();
 		}
 	}
-	
+
 	public void updateHistory(){
 		for(int i = 0; i < occupiedPosition.length; i++){
 			for(int j = 0; j < occupiedPosition.length; j++){
@@ -148,11 +148,11 @@ public class BoardControl {
 			}
 		}
 	}
-	
+
 	public boolean isSamePosition(int x, int y){
 		boolean same = true;
-		Stone tempStone = new Stone(x, y, isBlackTurn, 0);
-		occupiedPosition[x][y] = tempStone;
+	//	Stone tempStone = new Stone(x, y, isBlackTurn, 0);
+//		occupiedPosition[x][y] = tempStone;
 		for(int i = 0; i < occupiedPosition.length; i++){
 			for(int j = 0; j < occupiedPosition.length; j++){
 				if((occupiedPosition[i][j] != null && historyPosition[i][j] == null) ||
@@ -161,9 +161,22 @@ public class BoardControl {
 				}
 			}
 		}
-		
-		occupiedPosition[x][y] = null;
+
+	//	occupiedPosition[x][y] = null;
 		return same;
+	}
+	
+	public void addStones(GroupOfStones group){
+		for(Stone stone : group.getStones()){
+			if(!stone.isBlack()){
+				whiteStones.remove(stone);
+				occupiedPosition[stone.getX()][stone.getY()] = stone;
+			}
+			if(stone.isBlack()){
+				blackStones.remove(stone);
+				occupiedPosition[stone.getX()][stone.getY()] = stone;
+			}
+		}
 	}
 
 	private class Move extends MouseAdapter{
@@ -180,12 +193,11 @@ public class BoardControl {
 					int crossY = crossPoints[i][j].getY();
 
 					if(crossX - 20 < x && x < crossX + 20 && 
-							crossY - 20 < y  && y < crossY + 20 && occupiedPosition[i][j] == null &&
-							!isSamePosition(i, j)){
+							crossY - 20 < y  && y < crossY + 20 && occupiedPosition[i][j] == null){
 						boolean isNewGroup = true;
 						Stone stone = new Stone(i, j, isBlackTurn, numberOfBreaths(i, j));
 						GroupOfStones newGroup = new GroupOfStones(stone);
-						
+
 						for(GroupOfStones group : groupsOfStones){
 							if(isBlackTurn == group.isBlack() && group != newGroup && group.isGroupNextToPosition(i, j) && 
 									(stone.getNumberOfFreeBreaths() > 0 || group.getNumberFreeBreaths() > 1 || !isNewGroup)){
@@ -193,43 +205,42 @@ public class BoardControl {
 								newGroup = newGroup.mergeGroups(group);
 
 								groupsToRemove.add(group);
-								
-							//	System.out.println("New group: " + newGroup.getStones().size());
 
 								isNewGroup = false;
 							}else{
 								if(isBlackTurn != group.isBlack()){
 									group.removeBreathsInPosition(i, j);
-									//System.out.println(group.getNumberFreeBreaths());
 									if(group.getNumberFreeBreaths() == 0){
 										groupsToRemove.add(group);
 									}
 								}
 							}
 						}
-						
-						//System.out.println("New group: " + newGroup.getStones().size());
-						
+
 						for(GroupOfStones groupToRemove : groupsToRemove){
 							if(groupToRemove.isBlack() != isBlackTurn){
 								removeStones(groupToRemove);
 							}
 							groupsOfStones.remove(groupToRemove);
 						}
-						
-						
-						groupsOfStones.add(newGroup);
-						
-						
-						//System.out.println("New group: " + newGroup.getStones().size());
-						
-						updateHistory();
-						occupiedPosition[i][j] = stone;
-						System.out.println(stone.getNumberOfFreeBreaths());
-						drawStone(stone);
-						refreshStonesBreaths();
-						System.out.println("2: " + stone.getNumberOfFreeBreaths());
-						isBlackTurn = !isBlackTurn;
+
+						if(!isSamePosition(i, j)){
+							groupsOfStones.add(newGroup);
+							updateHistory();
+							occupiedPosition[i][j] = stone;
+							System.out.println(stone.getNumberOfFreeBreaths());
+							drawStone(stone);
+							refreshStonesBreaths();
+							System.out.println("2: " + stone.getNumberOfFreeBreaths());
+							isBlackTurn = !isBlackTurn;
+						}else{
+							for(GroupOfStones groupToRemove : groupsToRemove){
+								if(groupToRemove.isBlack() != isBlackTurn){
+									addStones(groupToRemove);
+								}
+								groupsOfStones.add(groupToRemove);
+							}
+						}
 					}
 				}
 			}
