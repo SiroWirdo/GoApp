@@ -8,8 +8,17 @@ public class GroupOfStones {
 	private boolean[][] stonesPosition;
 	private boolean isBlack;
 	
+	public GroupOfStones(boolean isBlack){
+		this.stonesPosition = new boolean[9][9];
+		clearPositions();
+		this.stones = new ArrayList<Stone>();
+		this.isBlack = isBlack;	
+		this.numberFreeBreaths = 0;
+	}
+	
 	public GroupOfStones(Stone stone){
 		this.stonesPosition = new boolean[9][9];
+		clearPositions();
 		this.stones = new ArrayList<Stone>();
 		this.stones.add(stone);
 		this.stonesPosition[stone.getX()][stone.getY()] = true;
@@ -19,6 +28,14 @@ public class GroupOfStones {
 	
 	public ArrayList<Stone> getStones(){
 		return stones;
+	}
+	
+	public void clearPositions(){
+		for(int i = 0; i < stonesPosition.length; i++){
+			for(int j = 0; j < stonesPosition[i].length; j++){
+				stonesPosition[i][j] = false;
+			}
+		}
 	}
 	
 	public int getNumberFreeBreaths(){
@@ -36,7 +53,7 @@ public class GroupOfStones {
 	public void addStone(Stone stone){
 		stones.add(stone);
 		stonesPosition[stone.getX()][stone.getY()] = true;
-		numberFreeBreaths = stone.getNumberOfFreeBreaths();
+		numberFreeBreaths += stone.getNumberOfFreeBreaths();
 	}
 	
 	public boolean isBlack(){
@@ -44,13 +61,20 @@ public class GroupOfStones {
 	}
 	
 	public GroupOfStones mergeGroups(GroupOfStones gos){
-		for(Stone stone : gos.getStones()){
-			stones.add(stone);
-			stonesPosition[stone.getX()][stone.getY()] = true;
+		GroupOfStones group = new GroupOfStones(gos.isBlack());
+		for(Stone stone : stones){
+			group.addStone(stone);
 		}
-		numberFreeBreaths += gos.getNumberFreeBreaths();
+		for(Stone stone : gos.getStones()){
+		//	stones.add(stone);
+		//	stonesPosition[stone.getX()][stone.getY()] = true;
+			group.addStone(stone);
+		}
+		//numberFreeBreaths += gos.getNumberFreeBreaths();
 		
-		return this;
+		System.out.println(stones.size() + " " + gos.getStones().size() + " " + group.getStones().size());
+		
+		return group;
 	}
 	
 	public boolean isGroupNextToPosition(int x, int y){
