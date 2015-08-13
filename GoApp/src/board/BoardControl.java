@@ -151,18 +151,22 @@ public class BoardControl {
 
 	public boolean isSamePosition(int x, int y){
 		boolean same = true;
-	//	Stone tempStone = new Stone(x, y, isBlackTurn, 0);
-//		occupiedPosition[x][y] = tempStone;
+		Stone tempStone = new Stone(x, y, isBlackTurn, 1);
+		occupiedPosition[x][y] = tempStone;
+		
+		/** chyba nie biorê pod uwagi tego ¿e zbijany jest jeden z kamieni!!!! **/
+		
 		for(int i = 0; i < occupiedPosition.length; i++){
 			for(int j = 0; j < occupiedPosition.length; j++){
 				if((occupiedPosition[i][j] != null && historyPosition[i][j] == null) ||
 						(occupiedPosition[i][j] == null && historyPosition[i][j] != null)){
 					same = false;
+					System.out.println("same posit: " + i + " "  + j);
 				}
 			}
 		}
 
-	//	occupiedPosition[x][y] = null;
+		occupiedPosition[x][y] = null;
 		return same;
 	}
 	
@@ -226,12 +230,12 @@ public class BoardControl {
 
 						if(!isSamePosition(i, j)){
 							groupsOfStones.add(newGroup);
-							updateHistory();
 							occupiedPosition[i][j] = stone;
 							System.out.println(stone.getNumberOfFreeBreaths());
 							drawStone(stone);
 							refreshStonesBreaths();
 							System.out.println("2: " + stone.getNumberOfFreeBreaths());
+							updateHistory();
 							isBlackTurn = !isBlackTurn;
 						}else{
 							for(GroupOfStones groupToRemove : groupsToRemove){
