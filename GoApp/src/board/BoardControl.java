@@ -192,6 +192,16 @@ public class BoardControl {
 			}
 		}
 	}
+	
+	public boolean isEnemyCaptured(ArrayList<GroupOfStones> groups){
+		for(GroupOfStones group : groups){
+			if(group.isBlack() != isBlackTurn){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	private class Move extends MouseAdapter{
 
@@ -238,7 +248,7 @@ public class BoardControl {
 							groupsOfStones.remove(groupToRemove);
 						}
 
-						if(!isSamePosition(i, j)){
+						if(!isSamePosition(i, j) && (newGroup.getNumberFreeBreaths() > 0 || isEnemyCaptured(groupsToRemove))){
 							groupsOfStones.add(newGroup);
 							occupiedPosition[i][j] = stone;
 						//	System.out.println(stone.getNumberOfFreeBreaths());
