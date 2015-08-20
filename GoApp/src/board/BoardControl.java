@@ -202,6 +202,14 @@ public class BoardControl {
 		
 		return false;
 	}
+	
+	public boolean isBlackTurn(){
+		return isBlackTurn;
+	}
+	
+	public void setBlackTurn(boolean blackTurn){
+		this.isBlackTurn = blackTurn;
+	}
 
 	private class Move extends MouseAdapter{
 

@@ -9,23 +9,27 @@ import options.OptionPanelView;
 import board.BoardView;
 
 public class MainBoard extends JFrame{
-	private BoardView board;
+	private BoardView boardView;
 	private OptionPanelControl optionPanelControl;
 	private OptionPanelView optionPanelView;
 	
 	public MainBoard(BoardView board){
-		this.board = board;
+		this.boardView = board;
 		
 		setSize(800, 600);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setLayout(null);
     	setResizable(true);
     	
-    	optionPanelControl = new OptionPanelControl();
+    	optionPanelControl = new OptionPanelControl(boardView.getBoardControl());
     	
     	optionPanelView = optionPanelControl.getOptionPanelView();
     	
-    	add(BorderLayout.CENTER, board);
-    	add(BorderLayout.EAST, optionPanelView);
+    	boardView.setBounds(0, 0, 600, 600);
+    	optionPanelView.setBounds(600, 0, 200, 600);
+    	
+    	add(boardView);
+    	add(optionPanelView);
     	
     	setVisible(true);    	
     	repaint();

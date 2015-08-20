@@ -38,6 +38,10 @@ public class BoardView extends JPanel{
 		repaint();
 	}
 	
+	public BoardControl getBoardControl(){
+		return boardControl;
+	}
+	
 	public void paintComponent(Graphics g){
 		g.drawImage(board, 0, 0, null);
 		
