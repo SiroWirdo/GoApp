@@ -2,9 +2,9 @@ package board;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.security.acl.Group;
 import java.util.ArrayList;
 
+import main.MainBoard;
 import options.OptionPanelControl;
 import settings.Settings;
 
@@ -24,6 +24,7 @@ public class BoardControl {
 	private boolean firstMove;
 	private int whiteCaptured;
 	private int blackCaptured;
+	private MainBoard mainBoard;
 
 	public BoardControl(boolean one){
 		this.crossPoints = new CrossPoint[9][9];
@@ -224,6 +225,14 @@ public class BoardControl {
 	
 	public void setBlackTurn(boolean blackTurn){
 		this.isBlackTurn = blackTurn;
+	}
+	
+	public void setMainBoard(MainBoard main){
+		this.mainBoard = main;
+	}
+	
+	public void endGame(){
+		mainBoard.dispose();
 	}
 
 	private class Move extends MouseAdapter{

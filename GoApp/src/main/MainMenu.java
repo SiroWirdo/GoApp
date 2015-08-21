@@ -66,6 +66,10 @@ public class MainMenu extends JFrame {
     	repaint();
 	}
 	
+	public void changeVisible(boolean visible){
+		this.setVisible(visible);
+	}
+	
 	private class OnePlayer implements ActionListener{
 
 		@Override
@@ -77,7 +81,7 @@ public class MainMenu extends JFrame {
 			boardControl.setOptionPanelControl(optionPanel);
 			MainBoard mainBoard = new MainBoard(boardView, optionPanel);
 			
-			MainMenu.instance.dispose();
+			MainMenu.instance.changeVisible(false);
 		}		
 	}
 	
@@ -92,7 +96,7 @@ public class MainMenu extends JFrame {
 			boardControl.setOptionPanelControl(optionPanel);
 			MainBoard mainBoard = new MainBoard(boardView, optionPanel);
 			
-			MainMenu.instance.dispose();
+			MainMenu.instance.changeVisible(false);
 		}
 		
 	}
@@ -103,6 +107,7 @@ public class MainMenu extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			MainMenu.instance.dispose();
+			System.exit(0);
 		}
 		
 	}

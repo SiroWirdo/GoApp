@@ -15,6 +15,7 @@ public class MainBoard extends JFrame{
 	
 	public MainBoard(BoardView board, OptionPanelControl optionPanel){
 		this.boardView = board;
+		boardView.getBoardControl().setMainBoard(this);
 		
 		setSize(800, 600);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

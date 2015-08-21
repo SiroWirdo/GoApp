@@ -3,6 +3,10 @@ package options;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import main.MainMenu;
 import board.BoardControl;
 
 public class OptionPanelControl {
@@ -43,7 +47,20 @@ public class OptionPanelControl {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
+			if(boardControl.isBlackTurn()){
+				JOptionPane.showMessageDialog(new JFrame(),
+					    "Czarny siê podda³",
+					    "Wynik",
+					    JOptionPane.WARNING_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(new JFrame(),
+					    "Bia³y siê podda³",
+					    "Wynik",
+					    JOptionPane.WARNING_MESSAGE);
+			}
 			
+			boardControl.endGame();
+			MainMenu.getInstance().changeVisible(true);
 		}
 		
 	}
