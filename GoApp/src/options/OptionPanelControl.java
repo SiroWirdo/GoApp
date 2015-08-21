@@ -18,6 +18,18 @@ public class OptionPanelControl {
 		return optionPanelView;
 	}
 	
+	public void refresh(){
+		optionPanelView.repaint();
+	}
+	
+	public void setBlackPoints(int points){
+		optionPanelView.setBlackPoints(points);
+	}
+	
+	public void setWhitePoints(int points){
+		optionPanelView.setWhitePoints(points);
+	}
+	
 	public ResignListener getResignListener(){
 		return new ResignListener();
 	}

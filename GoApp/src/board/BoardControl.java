@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.security.acl.Group;
 import java.util.ArrayList;
 
+import options.OptionPanelControl;
 import settings.Settings;
 
 public class BoardControl {
@@ -12,6 +13,7 @@ public class BoardControl {
 	private boolean onePlayer;
 	private BoardModel boardModel;
 	private BoardView boardView;
+	private OptionPanelControl optionPanelControl;
 	private boolean isBlackTurn;
 	private Stone[][] occupiedPosition;
 	private Stone[][] historyPosition;
@@ -20,6 +22,8 @@ public class BoardControl {
 	private ArrayList<Stone> blackStones;
 	private ArrayList<Stone> whiteStones;
 	private boolean firstMove;
+	private int whiteCaptured;
+	private int blackCaptured;
 
 	public BoardControl(boolean one){
 		this.crossPoints = new CrossPoint[9][9];
@@ -31,6 +35,9 @@ public class BoardControl {
 
 		this.blackStones = new ArrayList<Stone>();
 		this.whiteStones = new ArrayList<Stone>();
+		
+		this.whiteCaptured = 0;
+		this.blackCaptured = 0;
 
 		clearPositions();
 
@@ -42,6 +49,10 @@ public class BoardControl {
 
 		setCrossPoints();
 
+	}
+	
+	public void setOptionPanelControl(OptionPanelControl optionPanelControl) {
+		this.optionPanelControl = optionPanelControl;
 	}
 
 	public BoardView getBoardView(){
@@ -103,10 +114,12 @@ public class BoardControl {
 			if(whiteStones.contains(stone)){
 				whiteStones.remove(stone);
 				occupiedPosition[stone.getX()][stone.getY()] = null;
+				whiteCaptured++;
 			}
 			if(blackStones.contains(stone)){
 				blackStones.remove(stone);
 				occupiedPosition[stone.getX()][stone.getY()] = null;
+				blackCaptured++;
 			}
 		}
 	}
@@ -185,10 +198,12 @@ public class BoardControl {
 			if(!stone.isBlack()){
 				whiteStones.add(stone);
 				occupiedPosition[stone.getX()][stone.getY()] = stone;
+				whiteCaptured--;
 			}
 			if(stone.isBlack()){
 				blackStones.add(stone);
 				occupiedPosition[stone.getX()][stone.getY()] = stone;
+				blackCaptured--;
 			}
 		}
 	}
@@ -266,6 +281,9 @@ public class BoardControl {
 							updateHistory();
 							isBlackTurn = !isBlackTurn;
 							firstMove = false;
+							optionPanelControl.setBlackPoints(whiteCaptured);
+							optionPanelControl.setWhitePoints(blackCaptured);
+							
 						}else{
 							for(GroupOfStones groupToRemove : groupsToRemove){
 								if(groupToRemove.isBlack() != isBlackTurn){

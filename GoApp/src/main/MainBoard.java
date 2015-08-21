@@ -13,7 +13,7 @@ public class MainBoard extends JFrame{
 	private OptionPanelControl optionPanelControl;
 	private OptionPanelView optionPanelView;
 	
-	public MainBoard(BoardView board){
+	public MainBoard(BoardView board, OptionPanelControl optionPanel){
 		this.boardView = board;
 		
 		setSize(800, 600);
@@ -21,7 +21,7 @@ public class MainBoard extends JFrame{
     	setLayout(null);
     	setResizable(true);
     	
-    	optionPanelControl = new OptionPanelControl(boardView.getBoardControl());
+    	optionPanelControl = optionPanel;
     	
     	optionPanelView = optionPanelControl.getOptionPanelView();
     	

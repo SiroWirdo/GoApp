@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import options.OptionPanelControl;
 import board.BoardControl;
 import board.BoardView;
 
@@ -72,7 +73,9 @@ public class MainMenu extends JFrame {
 			// TODO Auto-generated method stub
 			BoardControl boardControl = new BoardControl(true);
 			BoardView boardView = boardControl.getBoardView();
-			MainBoard mainBoard = new MainBoard(boardView);
+			OptionPanelControl optionPanel = new OptionPanelControl(boardControl);
+			boardControl.setOptionPanelControl(optionPanel);
+			MainBoard mainBoard = new MainBoard(boardView, optionPanel);
 			
 			MainMenu.instance.dispose();
 		}		
@@ -85,7 +88,9 @@ public class MainMenu extends JFrame {
 			// TODO Auto-generated method stub
 			BoardControl boardControl = new BoardControl(false);
 			BoardView boardView = boardControl.getBoardView();
-			MainBoard mainBoard = new MainBoard(boardView);
+			OptionPanelControl optionPanel = new OptionPanelControl(boardControl);
+			boardControl.setOptionPanelControl(optionPanel);
+			MainBoard mainBoard = new MainBoard(boardView, optionPanel);
 			
 			MainMenu.instance.dispose();
 		}
