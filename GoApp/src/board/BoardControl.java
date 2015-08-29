@@ -25,6 +25,7 @@ public class BoardControl {
 	private int whiteCaptured;
 	private int blackCaptured;
 	private MainBoard mainBoard;
+	private int passCounter;
 
 	public BoardControl(boolean one){
 		this.crossPoints = new CrossPoint[9][9];
@@ -33,6 +34,7 @@ public class BoardControl {
 		this.secondHistoryPosition = new Stone[9][9];
 		this.groupsOfStones = new ArrayList<GroupOfStones>();
 		this.firstMove = true;
+		this.passCounter = 0;
 
 		this.blackStones = new ArrayList<Stone>();
 		this.whiteStones = new ArrayList<Stone>();
@@ -234,6 +236,20 @@ public class BoardControl {
 	public void endGame(){
 		mainBoard.dispose();
 	}
+	
+	public void increasePassCounter(){
+		passCounter++;
+	}
+	
+	public int getPassCounter(){
+		return passCounter;
+	}
+	
+	public void startCounting(){
+		CountingBoardControl control = new CountingBoardControl(mainBoard, this);
+		CountingBoardView board = control.getCountingBoardView();
+		mainBoard.changeToCountingBoard(board);
+	}
 
 	private class Move extends MouseAdapter{
 
@@ -292,6 +308,7 @@ public class BoardControl {
 							firstMove = false;
 							optionPanelControl.setBlackPoints(whiteCaptured);
 							optionPanelControl.setWhitePoints(blackCaptured);
+							passCounter = 0;
 							
 						}else{
 							for(GroupOfStones groupToRemove : groupsToRemove){

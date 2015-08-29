@@ -1,20 +1,22 @@
 package main;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 
 import options.OptionPanelControl;
 import options.OptionPanelView;
 import board.BoardView;
+import board.CountingBoardView;
 
 public class MainBoard extends JFrame{
 	private BoardView boardView;
+	private CountingBoardView countingBoardView;
 	private OptionPanelControl optionPanelControl;
 	private OptionPanelView optionPanelView;
+	private boolean counting;
 	
 	public MainBoard(BoardView board, OptionPanelControl optionPanel){
 		this.boardView = board;
+		this.counting = false;
 		boardView.getBoardControl().setMainBoard(this);
 		
 		setSize(800, 600);
@@ -32,8 +34,25 @@ public class MainBoard extends JFrame{
     	add(boardView);
     	add(optionPanelView);
     	
-    	setVisible(true);    	
+    	setVisible(true);
     	repaint();
+	}
+	
+	public void changeToCountingBoard(CountingBoardView board){
+		this.countingBoardView = board;
+		this.countingBoardView.setBounds(0, 0, 600, 600);
+		this.counting = true;
+		remove(boardView);
+		add(countingBoardView);
+		repaint();
+	}
+	
+	public void changeToBoardView(){
+		if(counting){
+			remove(countingBoardView);
+			add(boardView);
+			repaint();
+		}
 	}
 	
 }

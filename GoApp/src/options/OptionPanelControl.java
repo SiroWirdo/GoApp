@@ -71,6 +71,10 @@ public class OptionPanelControl {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			boardControl.setBlackTurn(!boardControl.isBlackTurn());
+			boardControl.increasePassCounter();
+			if(boardControl.getPassCounter() >= 2){
+				boardControl.startCounting();
+			}
 		}
 		
 	}
